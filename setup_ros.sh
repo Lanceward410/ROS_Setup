@@ -10,7 +10,19 @@ sudo apt install python3
 
 # Common function to install additional ROS packages
 install_additional_packages() {
-    sudo apt install -y gazebo_ros_pkgs ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-rqt-common-plugins rviz_visual_tools robot_localization ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-image-pipeline ros-$ROS_DISTRO-depthimage-to-laserscan ros-$ROS_DISTRO-octomap ros-$ROS_DISTRO-octomap-ros ros-$ROS_DISTRO-joy
+    sudo apt install -y gazebo_ros_pkgs ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-rqt-common-plugins rviz_visual_tools robot_localization ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-image-pipeline ros-$ROS_DISTRO-depthimage-to-laserscan ros-$ROS_DISTRO-octomap ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-octomap-ros ros-$ROS_DISTRO-joy
+}
+install_limo() {
+    mkdir limo_ws
+    cd limo_ws
+    mkdir src
+    cd src
+    catkin_init_workspace
+    git clone https://github.com/agilexrobotics/ugv_sim.git
+    cd ..
+    rosdep install --from-paths src --ignore-src -r -y
+    catkin_make
+    source devel/setup.bash
 }
 
 # Function to install ROS Melodic for Ubuntu 18.04
@@ -26,6 +38,7 @@ install_ros_melodic() {
     sudo rosdep init
     rosdep update
     install_additional_packages
+    install_limo
 }
 
 # Function to install ROS Noetic for Ubuntu 20.04
