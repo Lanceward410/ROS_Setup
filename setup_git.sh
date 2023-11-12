@@ -19,7 +19,7 @@ ssh-keygen -t rsa -b 4096 -C "lanceward410@gmail.com"
 
 # Display the public key
 echo "Your SSH public key is:"
-cat ~/.ssh/id_rsa.pub
+cat ~/.ssh/id_rsa.pub >> SSH_key.txt
 
 # Instructions for adding the public key to GitHub
 echo "Add this public key to your GitHub account: https://github.com/settings/keys"
