@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ~ # Because I'll never make this mistake again
+cd ~ # -_-
 
 # Welcome to ROS Setup!
 # Run this file by navigating to the ROS_Setup repository
@@ -27,69 +27,92 @@ set_gazebo_version() {
     esac
 }
 
-# Run the function
 set_gazebo_version
 
 # Update
 sudo apt update -y
 sudo apt upgrade -y
 # Visual Studio Code
-sudo snap install code --classic -y
+echo "VS Code"
+sudo snap install code --classic
 # System Resource Monitor
+echo "htop"
 sudo apt install htop -y
 # Git!
+echo "Git"
 sudo apt install git -y
 # Python 3 from popular deadsnakes repository
+echo "repository ppa:deadsnakes/ppa"
 sudo apt-repository ppa:deadsnakes/ppa
+echo "python3"
 sudo apt install python3 -y
+# Autoremove
+sudo apt autoremove -y
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Misc Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Additional ROS packages install function
+# Debug Additional ROS Packages
 install_additional_packages() {
-    sudo apt install -y ros-$ROS_DISTRO-rqt ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-rqt-common-plugins rviz_visual_tools robot_localization ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-image-pipeline ros-$ROS_DISTRO-depthimage-to-laserscan ros-$ROS_DISTRO-octomap ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-octomap-ros ros-$ROS_DISTRO-joy
+    echo "installing ros packages..."
+    sudo apt install -y ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-joint-state-publisher-gui rviz_visual_tools ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
 }
 
-# Limo_ws for Ubuntu 18.04 install function
+# Function to add sources
+sourcing() {
+    cd ~/limo_ws
+    source /opt/ros/melodic/setup.bash
+    source ~/limo_ws/devel/setup.bash
+    cd ~
+}
+
+# Limo_ws install/make function; Version Ubuntu 18.04
 install_limo() {
     mkdir limo_ws
     cd limo_ws
+    source /opt/ros/melodic/setup.bash
     mkdir src
     cd src
-    catkin_init_workspace
+    cd ~/limo_ws
+    /opt/ros/melodic/bin/catkin_init_workspace
+    cd src
+    echo "clone ugv_sim:"
     git clone https://github.com/agilexrobotics/ugv_sim.git
     cd ..
+    echo "rosdep installer:"
     rosdep install --from-paths src --ignore-src -r -y
-    catkin_make
-    source devel/setup.bash
-    cd ~
+#    echo "cd .."
+#    cd ..
+    /opt/ros/melodic/bin/catkin_make
 }
 
 # ROS1 Melodic install function
 install_ros_melodic() {
+    echo "Begin Melodic Install"
     export ROS_DISTRO=melodic
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
     sudo apt install curl -y
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
     sudo apt update -y
     sudo apt install -y ros-melodic-desktop-full
-    cd ~
     source /opt/ros/melodic/setup.bash
+    echo 'export PATH=$PATH:/opt/ros/melodic/bin' >> ~/.bashrc
     sudo apt install -y python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install -y python-rosdep
     sudo rosdep init
+    sudo rosdep fix-permissions
     rosdep update
     install_additional_packages
-# Going to ensure we have Catkin Tools set up
-sudo sh \
-    -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
+# Setting up Catkin Tools keys
+    cd ~
+    sudo sh \
+        -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
         > /etc/apt/sources.list.d/ros-latest.list'
     wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-sudo apt-get install python3-catkin-tools -y
+    sudo apt-get install python3-catkin-tools -y
+    echo "install_limo()"
     install_limo
-# Source ROS environment in bashrc
-cd ~/ROS_Setup/limo_ws #change this back later
-source /opt/ros/$ROS_DISTRO/setup.bash
-echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
-source ~/.bashrc
+    echo "sourcing()"
+    sourcing
 }
 
 # ROS1 Noetic install function
@@ -100,24 +123,23 @@ install_ros_noetic() {
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
     sudo apt update
     sudo apt install -y ros-noetic-desktop-full
+    cd ~
+    source /opt/ros/noetic/setup.bash
+    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
     sudo rosdep init
     rosdep update
-    install_additional_packages
-# Going to ensure we have Catkin Tools set up
+
+# Setting up Catkin Tools keys
+cd ~
 sudo sh \
     -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
         > /etc/apt/sources.list.d/ros-latest.list'
     wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 sudo apt-get install python3-catkin-tools -y
-#INSERT LIMO_WS EQUIVALENT HERE
-#cd PATH_TO_LIMO_WS
-
-# Source ROS environment in bashrc
-#source /opt/ros/$ROS_DISTRO/setup.bash
-#echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
-#source ~/.bashrc
+    install_additional_packages
 }
 
 # ROS2 Humble install function
