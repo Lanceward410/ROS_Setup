@@ -41,9 +41,9 @@ done
 echo "Continuing with update"
 # Update
 echo "sudo apt update -y"
-sudo apt update -y
+    sudo apt update -y
 echo "sudo apt upgrade -y"
-sudo apt upgrade -y
+    sudo apt upgrade -y
 
 # Debug Software Packages
 echo "Just finished # Update! About to install software packages..."
@@ -53,14 +53,14 @@ for i in {5..1}; do
 done
 echo "Continuing with the next commands, Visual Studio Code, etc"
 # Visual Studio Code
-sudo snap install code --classic
+    sudo snap install code --classic
 # System Resource Monitor
-sudo apt install htop
+    sudo apt install htop
 # Git!
-sudo apt install git
+    sudo apt install git
 # Python 3
 echo "sudo apt install python python3 -y"
-sudo apt install python python3 -y
+    sudo apt install python python3 -y
 # Autoremove
 # echo "sudo apt autoremove -y"
 # sudo apt autoremove -y
@@ -87,13 +87,13 @@ done
 echo "Continuing with sourcing()"
 # Function to add sources
 sourcing() {
-    echo "cd ~/limo_ws"
+echo "cd ~/limo_ws"
     cd ~/limo_ws
-    echo "source /opt/ros/melodic/setup.bash"
+echo "source /opt/ros/melodic/setup.bash"
     source /opt/ros/melodic/setup.bash
-    echo "source devel/setup.bash"
+echo "source devel/setup.bash"
     source devel/setup.bash
-    echo "cd ~"
+echo "cd ~"
     cd ~
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +108,7 @@ for i in {5..1}; do
 done
 echo "Continuing @ mkdir limo_ws"
     mkdir limo_ws
-    echo "cd limo_ws"
+echo "cd limo_ws"
     cd limo_ws
 
 # Debug Sourcing
@@ -117,21 +117,21 @@ echo "Continuing @ mkdir limo_ws"
 #    source /opt/ros/melodic/setup.bash
 
 # Debug catkin_init_workspace
-    echo "About to run catkin_init_workspace"
-    for i in {5..1}; do
-        echo "Countdown: $i"
-        sleep 1
-    done
-    echo "mkdir src"
+echo "About to run catkin_init_workspace"
+for i in {5..1}; do
+    echo "Countdown: $i"
+    sleep 1
+done
+echo "mkdir src"
     mkdir src
-    echo "cd src"
+echo "cd src"
     cd src
-    echo "catkin_init_workspace"
+echo "catkin_init_workspace"
     /opt/ros/melodic/bin/catkin_init_workspace
-    echo "clone ugv_sim"
+echo "clone ugv_sim"
     git clone https://github.com/agilexrobotics/ugv_sim.git
     cd ..
-    echo "rosdep installer"
+echo "rosdep installer"
     rosdep install --from-paths src --ignore-src -r -y
 
 # Debug catkin_make
@@ -152,11 +152,11 @@ echo "Continuing"
 install_ros_melodic() {
     export ROS_DISTRO=melodic
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-    sleep 1
+sleep 1
     sudo apt install curl -y
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F42ED6FBAB17C654
-    sleep 1
+sleep 1
     sudo apt update -y
 
 # Debug Install Melodic
@@ -196,7 +196,7 @@ for i in {5..1}; do
     sleep 1
 done
 echo "Continuing with catkin-tools"
-sudo apt-get install python3-catkin-tools -y
+    sudo apt-get install python3-catkin-tools -y
     install_limo
     sourcing
 }
@@ -235,10 +235,10 @@ echo "Installing python packages"
     rosdep update
 
 # Setting up Catkin Tools keys
-cd ~
-sudo sh \
+    cd ~
+    sudo sh \
     -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
-        > /etc/apt/sources.list.d/ros-latest.list'
+     > /etc/apt/sources.list.d/ros-latest.list'
     wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 
 # Debug Catkin Tools
@@ -248,7 +248,7 @@ for i in {5..1}; do
     sleep 1
 done
 echo "Continuing with catkin-tools"
-sudo apt-get install python3-catkin-tools -y
+    sudo apt-get install python3-catkin-tools -y
     install_additional_packages
 }
 
@@ -310,12 +310,12 @@ for i in {5..1}; do
     sleep 1
 done
 echo "Continuing"
-sudo apt update -y
-sudo apt upgrade -y
+    sudo apt update -y
+    sudo apt upgrade -y
 
 echo "redirecting to limo_ws and sourcing devel/setup.bash"
-cd ~/limo_ws
-source devel/setup.bash
+    cd ~/limo_ws
+    source devel/setup.bash
 
 echo "UMES ROS Workstation Setup Complete!"
 echo "bash ~/ROS_Setup/go_limo.bash"
