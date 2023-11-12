@@ -55,14 +55,12 @@ echo "Continuing with the next commands, Visual Studio Code, etc"
 # Visual Studio Code
 sudo snap install code --classic
 # System Resource Monitor
-sudo apt install htop -y
+sudo apt install htop
 # Git!
-sudo apt install git -y
-# Python 3 from popular deadsnakes repository
-echo "repository ppa:deadsnakes/ppa"
-sudo apt-repository ppa:deadsnakes/ppa
-echo "python3"
-sudo apt install python3 -y
+sudo apt install git
+# Python 3
+echo "sudo apt install python python3 -y"
+sudo apt install python python3 -y
 # Autoremove
 # echo "sudo apt autoremove -y"
 # sudo apt autoremove -y
@@ -70,13 +68,14 @@ sudo apt install python3 -y
 # Additional ROS packages install function
 # Debug Additional ROS Packages
 install_additional_packages() {
+    export ROS_DISTRO=melodic
 echo "About to run install_additional_packages()..."
 for i in {5..1}; do
     echo "Countdown: $i"
     sleep 1
 done
 echo "sudo apt install -y ros-$ROS_DISTRO-packages"
-    sudo apt install -y ros-$ROS_DISTRO-slam-gmapping ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui rviz_visual_tools ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
+    sudo apt install -y ros-$ROS_DISTRO-slam-gmapping ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
 }
 
 # Debug sourcing()
@@ -114,8 +113,8 @@ echo "Continuing @ mkdir limo_ws"
 
 # Debug Sourcing
 #   Source ROS environment in bashrc
-    echo "source /opt/ros/melodic/setup.bash"
-    source /opt/ros/melodic/setup.bash
+#    echo "source /opt/ros/melodic/setup.bash"
+#    source /opt/ros/melodic/setup.bash
 
 # Debug catkin_init_workspace
     echo "About to run catkin_init_workspace"
@@ -153,8 +152,11 @@ echo "Continuing"
 install_ros_melodic() {
     export ROS_DISTRO=melodic
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+    sleep 1
     sudo apt install curl -y
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F42ED6FBAB17C654
+    sleep 1
     sudo apt update -y
 
 # Debug Install Melodic
@@ -166,8 +168,6 @@ done
 echo "Installing ROS Melodic Full"
     sudo apt install -y ros-melodic-desktop-full
     source /opt/ros/melodic/setup.bash
-    echo 'export PATH=$PATH:/opt/ros/melodic/bin' >> ~/.bashrc
-
 
 # Debug Python packages
 echo "About to install various python packages..."
@@ -176,18 +176,18 @@ for i in {5..1}; do
     sleep 1
 done
 echo "Continuing with python packages"
-    sudo apt install -y python-rosdep python-rosinstall python-roslaunch python-rosinstall-generator python-wstool build-essential
+    sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install python-rosdep
     sudo rosdep init
     rosdep update
     install_additional_packages
 
 # Setting up Catkin Tools keys
-cd ~
-sudo sh \
-    -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
-        > /etc/apt/sources.list.d/ros-latest.list'
-    wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+#cd ~
+#sudo sh \
+ #   -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" \
+ #       > /etc/apt/sources.list.d/ros-latest.list'
+ #   wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 
 # Debug Catkin Tools
 echo "About to install python3-catkin-tools"
@@ -293,12 +293,12 @@ for i in {5..1}; do
     sleep 1
 done
 echo "Continuing"
-cd /
-cd usr/share/$GAZEBO_VERSION/models
-sudo rm -r *
-git init
-git remote add origin https://github.com/osrf/gazebo_models.git
-git pull origin master
+#cd /
+#cd usr/share/$GAZEBO_VERSION/models
+#sudo rm -r *
+#git init
+#git remote add origin https://github.com/osrf/gazebo_models.git
+#git pull origin master
 # Back to Home
 cd ~
 
@@ -313,4 +313,10 @@ echo "Continuing"
 sudo apt update -y
 sudo apt upgrade -y
 
-echo "UMES ROS Workstation Setup Complete"
+echo "redirecting to limo_ws and sourcing devel/setup.bash"
+cd ~/limo_ws
+source devel/setup.bash
+
+echo "UMES ROS Workstation Setup Complete!"
+echo "bash ~/ROS_Setup/go_limo.bash"
+echo "to spawn and visualize Limo"
