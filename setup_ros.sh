@@ -71,6 +71,8 @@ install_ros_melodic() {
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
     sudo apt update -y
     sudo apt install -y ros-melodic-desktop-full
+    cd ~
+    source /opt/ros/melodic/setup.bash
     sudo apt install -y python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install -y python-rosdep
     sudo rosdep init
@@ -83,6 +85,11 @@ sudo sh \
     wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 sudo apt-get install python3-catkin-tools -y
     install_limo
+# Source ROS environment in bashrc
+cd ~/ROS_Setup/limo_ws #change this back later
+source /opt/ros/$ROS_DISTRO/setup.bash
+echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+source ~/.bashrc
 }
 
 # ROS1 Noetic install function
@@ -104,6 +111,13 @@ sudo sh \
         > /etc/apt/sources.list.d/ros-latest.list'
     wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 sudo apt-get install python3-catkin-tools -y
+#INSERT LIMO_WS EQUIVALENT HERE
+#cd PATH_TO_LIMO_WS
+
+# Source ROS environment in bashrc
+#source /opt/ros/$ROS_DISTRO/setup.bash
+#echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+#source ~/.bashrc
 }
 
 # ROS2 Humble install function
@@ -144,10 +158,5 @@ cd ~
 # Why not
 sudo apt update -y
 sudo apt upgrade -y
-
-# Source ROS environment in bashrc
-source /opt/ros/$ROS_DISTRO/setup.bash
-echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
-source ~/.bashrc
 
 echo "UMES ROS Workstation Setup Complete"
