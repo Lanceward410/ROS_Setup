@@ -1,14 +1,29 @@
-    cd ~/limo_ws
+#start ros master
+
+    cd ~limo_ws
+    roscore
+    
+#start gmapping
+
+new tab
 
     source /opt/ros/melodic/setup.bash
     source devel/setup.bash
     rosparam set use_sim_time true
     rosrun gmapping slam_gmapping scan:=/limo/scan
 
+#start gazebo+rviz
+
+new tab
+
     source /opt/ros/melodic/setup.bash
     source devel/setup.bash
     rosparam set use_sim_time true
     roslaunch limo_gazebo_sim limo_ackerman.launch
+
+#start remote controller
+
+new tab
 
     source /opt/ros/melodic/setup.bash
     source devel/setup.bash
