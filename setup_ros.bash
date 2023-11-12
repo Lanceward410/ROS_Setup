@@ -47,21 +47,20 @@ sudo apt-repository ppa:deadsnakes/ppa
 echo "python3"
 sudo apt install python3 -y
 # Autoremove
-sudo apt autoremove -y
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Misc Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Additional ROS packages install function
 # Debug Additional ROS Packages
 install_additional_packages() {
     echo "installing ros packages..."
-    sudo apt install -y ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-joint-state-publisher-gui rviz_visual_tools ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
+    sudo apt install -y ros-$ROS_DISTRO-slam-gmapping ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui rviz_visual_tools ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
 }
 
 # Function to add sources
 sourcing() {
     cd ~/limo_ws
     source /opt/ros/melodic/setup.bash
-    source ~/limo_ws/devel/setup.bash
+    source devel/setup.bash
     cd ~
 }
 
@@ -69,19 +68,14 @@ sourcing() {
 install_limo() {
     mkdir limo_ws
     cd limo_ws
-    source /opt/ros/melodic/setup.bash
     mkdir src
     cd src
-    cd ~/limo_ws
     /opt/ros/melodic/bin/catkin_init_workspace
-    cd src
     echo "clone ugv_sim:"
     git clone https://github.com/agilexrobotics/ugv_sim.git
-    cd ..
+    cd ~/limo_ws
     echo "rosdep installer:"
     rosdep install --from-paths src --ignore-src -r -y
-#    echo "cd .."
-#    cd ..
     /opt/ros/melodic/bin/catkin_make
 }
 
@@ -96,10 +90,9 @@ install_ros_melodic() {
     sudo apt install -y ros-melodic-desktop-full
     source /opt/ros/melodic/setup.bash
     echo 'export PATH=$PATH:/opt/ros/melodic/bin' >> ~/.bashrc
-    sudo apt install -y python-rosinstall python-rosinstall-generator python-wstool build-essential
-    sudo apt install -y python-rosdep
+    sudo apt install -y python-rosdep python-rosinstall python-roslaunch python-rosinstall-generator python-wstool build-essential
+    sudo apt install python-rosdep
     sudo rosdep init
-    sudo rosdep fix-permissions
     rosdep update
     install_additional_packages
 # Setting up Catkin Tools keys
