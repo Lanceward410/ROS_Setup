@@ -4,7 +4,7 @@ cd ~ # Because I'll never make this mistake again
 
 # Welcome to ROS Setup!
 # Run this file by navigating to the ROS_Setup repository
-# and running "sudo sh setup_ros.sh"
+# and running "sudo bash setup_ros.bash"
 # Cheers!
 # Author: Lance Ward
 
