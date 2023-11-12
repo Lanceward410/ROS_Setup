@@ -185,5 +185,5 @@ echo "redirecting to limo_ws and sourcing devel/setup.bash"
     source devel/setup.bash
 
 echo "UMES ROS Workstation Setup Complete!"
-echo "bash ~/ROS_Setup/go_limo.bash"
-echo "to spawn and visualize Limo"
+echo "Read go_limo.txt for copy+paste instructions on"
+echo "how to spawn and visualize Limo"
