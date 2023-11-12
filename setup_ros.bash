@@ -51,7 +51,6 @@ sudo apt install python python3 -y
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Misc Functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Additional ROS packages install function
 install_additional_packages() {
-    export ROS_DISTRO=melodic
 echo "About to run install_additional_packages()"
     sudo apt install -y ros-$ROS_DISTRO-slam-gmapping ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
 }
@@ -59,30 +58,34 @@ echo "About to run install_additional_packages()"
 # Function to add sources
 sourcing() {
 echo "sourcing():"
-    cd ~/limo_ws
-    source /opt/ros/melodic/setup.bash
+    cd ~/ugv_ws
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /.bashrc
     source devel/setup.bash
+    echo "source devel/setup.bash" >> /.bashrc
+    source ~/.bashrc
     cd ~
+    source /.bashrc
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start Debug install_limo() ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Limo_ws install/make function; Version Ubuntu 18.04
-install_limo() {
-echo "install_limo():"
-    mkdir limo_ws
-    cd limo_ws
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Start Debug install_ugv() ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ugv_ws install/make function; Version Ubuntu 18.04
+install_ugv() {
+echo "install_ugv():"
+    mkdir ugv_ws
+    cd ugv_ws
     mkdir src
     cd src
 echo "catkin_init_workspace"
-    /opt/ros/melodic/bin/catkin_init_workspace
+    /opt/ros/$ROS_DISTRO/bin/catkin_init_workspace
 echo "clone ugv_sim"
     git clone https://github.com/agilexrobotics/ugv_sim.git
     cd ..
 echo "Rosdep installing"
     rosdep install --from-paths src --ignore-src -r -y
 echo "Running catkin_make"
-    /opt/ros/melodic/bin/catkin_make
+    /opt/ros/$ROS_DISTRO/bin/catkin_make
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -107,32 +110,31 @@ echo "About to install various python packages"
     install_additional_packages
 echo "About to install python3-catkin-tools"
     sudo apt-get install python3-catkin-tools -y
-    install_limo
+    install_ugv
     sourcing
 }
 
 # ROS1 Noetic install function
 install_ros_noetic() {
     export ROS_DISTRO=noetic
+echo "setting keys for ROS"
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-    sudo apt install -y curl
+    sudo apt install curl -y
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-    sudo apt update
+    sudo apt update -y
 echo "Installing ROS Noetic Full"
     sudo apt install -y ros-noetic-desktop-full
-    cd ~
     source /opt/ros/noetic/setup.bash
-    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-    source ~/.bashrc
-echo "Installing python packages"
-    sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
-    sudo apt install -y python3-rosdep
+echo "About to install various python packages"
+    sudo apt install -y python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+    sudo apt install python3-rosdep
     sudo rosdep init
     rosdep update
-echo "About to install python3-catkin-tools"
-echo "Continuing with catkin-tools"
-    sudo apt-get install python3-catkin-tools -y
     install_additional_packages
+echo "About to install python3-catkin-tools"
+    sudo apt-get install python3-catkin-tools -y
+    install_ugv
+    sourcing
 }
 
 # ROS2 Humble install function
@@ -168,9 +170,9 @@ echo "About to download gazebo models to $GAZEBO_VERSION/models directory"
     cd /
     cd usr/share/$GAZEBO_VERSION/models
     sudo rm -r *
-    git init
-    git remote add origin https://github.com/osrf/gazebo_models.git
-    git pull origin master
+    sudo git init
+    sudo git remote add origin https://github.com/osrf/gazebo_models.git
+    sudo git pull origin master
 # Back to Home
     cd ~
 
@@ -180,10 +182,10 @@ echo "update + upgrade..."
     sudo apt update -y
     sudo apt upgrade -y
 
-echo "redirecting to limo_ws and sourcing devel/setup.bash"
-    cd ~/limo_ws
+echo "redirecting to ugv_ws and sourcing devel/setup.bash"
+    cd ~/ugv_ws
     source devel/setup.bash
 
 echo "UMES ROS Workstation Setup Complete!"
-echo "Read go_limo.txt for copy+paste instructions on"
-echo "how to spawn and visualize Limo"
+echo "."
+echo "."
