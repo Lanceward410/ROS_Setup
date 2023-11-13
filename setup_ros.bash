@@ -108,7 +108,7 @@ echo "About to install various python packages"
     rosdep update
     install_additional_packages
 echo "About to install python3-catkin-tools"
-    sudo apt-get install python-catkin-tools python3-catkin-tools -y
+    sudo apt-get install python3-catkin-tools -y
     install_ugv
     sourcing
 }
