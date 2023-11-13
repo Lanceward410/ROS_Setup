@@ -44,7 +44,7 @@ sudo apt install htop
 # Git!
 sudo apt install git
 # Python 3
-sudo apt install python python3 -y
+# sudo apt install python python3 -y
 # Autoremove
 # echo "sudo apt autoremove -y"
 # sudo apt autoremove -y
@@ -52,7 +52,7 @@ sudo apt install python python3 -y
 # Additional ROS packages install function
 install_additional_packages() {
 echo "About to run install_additional_packages()"
-    sudo apt install -y ros-$ROS_DISTRO-slam-gmapping ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
+    sudo apt install -y ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
 }
 
 # Function to add sources
@@ -97,9 +97,9 @@ echo "setting keys for ROS"
     sudo apt update -y
 echo "Installing ROS Melodic Full"
     sudo apt install -y ros-$ROS_DISTRO-desktop-full
-    source /opt/ros/$ROS_DISTRO/setup.bash
-    echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+    echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
     source ~/.bashrc
+    source /opt/ros/$ROS_DISTRO/setup.bash
 echo "About to install various python packages"
     sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install python-rosdep
@@ -109,7 +109,7 @@ echo "About to install various python packages"
 echo "About to install python3-catkin-tools"
     sudo apt-get install python3-catkin-tools -y
     install_ugv
-    sourcing
+    #sourcing
 }
 
 # ROS1 Noetic install function
@@ -165,6 +165,7 @@ esac
 # Erase current contents, then add all gazebo models from OSRF
 # Debug Gazebo models download
 echo "About to download gazebo models to $GAZEBO_VERSION/models directory"
+get_models() {
     cd /
     cd usr/share/$GAZEBO_VERSION/models
     sudo rm -r *
@@ -173,12 +174,8 @@ echo "About to download gazebo models to $GAZEBO_VERSION/models directory"
     sudo git pull origin master
 # Back to Home
     cd ~
-
-# Why not
-echo "update + upgrade..."
-
-    sudo apt update -y
-    sudo apt upgrade -y
+}
+#get_models
 
 echo "redirecting to ugv_ws and sourcing devel/setup.bash"
     cd ~/ugv_ws
