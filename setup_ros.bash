@@ -82,8 +82,6 @@ echo "Rosdep installing"
     rosdep install --from-paths src --ignore-src -r -y
 echo "Running catkin_make"
     /opt/ros/$ROS_DISTRO/bin/catkin_make
-echo "Just so you know, if there's a cmake error here at Bunker,"
-echo " that is okay, we don't care about bunker"
 }
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
