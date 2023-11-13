@@ -175,7 +175,7 @@ get_models() {
 # Back to Home
     cd ~
 }
-#get_models
+get_models
 
 echo "redirecting to ugv_ws and sourcing devel/setup.bash"
     cd ~/ugv_ws
