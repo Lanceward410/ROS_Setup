@@ -1,30 +1,29 @@
-#start ros master
-
-    cd ~ugv_ws
-    roscore
-    
-#start gmapping
-
-new tab
-
-    source /opt/ros/$ROS_DISTRO/setup.bash
-    source devel/setup.bash
-    rosparam set use_sim_time true
-    rosrun gmapping slam_gmapping scan:=/limo/scan
-
 #start gazebo+rviz
+#new tab
 
-new tab
-
+    export ROS_DISTRO=melodic
     source /opt/ros/$ROS_DISTRO/setup.bash
     source devel/setup.bash
     rosparam set use_sim_time true
     roslaunch limo_gazebo_sim limo_ackerman.launch
 
+
+
+#start gmapping
+#new tab
+
+    export ROS_DISTRO=melodic
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    source devel/setup.bash
+    rosparam set use_sim_time true
+    rosrun gmapping slam_gmapping scan:=/limo/scan
+
+
+
 #start remote controller
+#new tab
 
-new tab
-
+    export ROS_DISTRO=melodic
     source /opt/ros/$ROS_DISTRO/setup.bash
     source devel/setup.bash
     rosparam set use_sim_time true
