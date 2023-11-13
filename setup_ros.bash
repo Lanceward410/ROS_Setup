@@ -98,7 +98,7 @@ echo "setting keys for ROS"
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F42ED6FBAB17C654
     sudo apt update -y
 echo "Installing ROS Melodic Full"
-    sudo apt install -y ros-$DISTRO-desktop-full
+    sudo apt install -y ros-$ROS_DISTRO-desktop-full
     source /opt/ros/$ROS_DISTRO/setup.bash
     echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
     source ~/.bashrc
