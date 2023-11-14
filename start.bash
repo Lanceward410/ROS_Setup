@@ -47,7 +47,7 @@ echo "source /opt/ros/$ROS_DISTRO/setup.bash"
 install_additional_packages() {
 echo "About to run install_additional_packages()"
     sudo apt install -y ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-roslint ros-$ROS_DISTRO-joy
-    sudo apt-get install python-catkin-tools -y
+    sudo apt-get install python3-catkin-tools -y
 echo "Upgrading..."
     sudo apt update
     sudo apt upgrade -y
