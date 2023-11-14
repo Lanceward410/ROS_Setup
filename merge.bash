@@ -112,6 +112,9 @@ echo "About to install various python packages"
 
 cd ~ # A good waste of 10 minutes is what not including this was
 
+# Set Gazebo Version...
+set_gazebo_version
+
 # Call ROS install function based on Ubuntu version
 case $ubuntu_version in
     18.04)
