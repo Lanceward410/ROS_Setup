@@ -48,11 +48,20 @@ install_additional_packages() {
 echo "About to run install_additional_packages()"
     sudo apt install -y ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-joy
     sudo apt-get install python3-catkin-tools -y
+echo "Upgrading..."
+    sudo apt update
+    sudo apt upgrade -y
 }
 
 # Install AgileX Robots
 install_ugv() {
 echo "About to run install_ugv()"
+    if [ -d "ugv_ws" ]; then
+echo "ugv_ws already exists, let me remove it for you"
+sleep 1
+        rm -rf ugv_sim
+    fi
+echo "Creating new ugv_ws"
     mkdir ugv_ws
     cd ugv_ws
     mkdir src
@@ -62,7 +71,14 @@ echo "catkin_init_workspace"
 echo "clone ugv_sim"
     git clone https://github.com/agilexrobotics/ugv_sim.git
     cd ..
-    echo "source devel/setup.bash" >> ~/.bashrc
+    LINE_TO_ADD="source devel/setup.bash"
+    FILE=~/.bashrc
+        if ! grep -Fxq "$LINE_TO_ADD" $FILE; then
+            echo "$LINE_TO_ADD" >> $FILE
+echo "source devel/setup.bash added to to $FILE."
+        else
+echo "source devel/setup.bash already exists in $FILE."
+        fi
     source ~/.bashrc
 echo "Rosdep installing"
     rosdep install --from-paths src --ignore-src -r -y
@@ -108,9 +124,27 @@ echo "About to install various python packages"
     install_ugv
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Begin to call functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ The Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-cd ~ # A good waste of 10 minutes is what not including this was
+# A good waste of 10 minutes is what not including this was
+cd ~
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt install git -y
+# These are some optional software to aid in ROS development
+snap install code --classic
+sudo snap install foxglove-studio -y
+sudo snap install qtcreator-ros --classic -y
+sudo snap install cmake --classic -y
+#imager for raspberry pi
+sudo snap install rpi-imager -y
+# Open-source 3D model editor
+sudo apt install blender -y
+# Turtle bot!
+sudo snap install turtlebot3c -y
+# System resource monitor
+sudo apt install htop
 
 # Set Gazebo Version...
 set_gazebo_version
