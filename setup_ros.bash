@@ -94,15 +94,15 @@ echo "setting keys for ROS"
     sudo apt install curl -y
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F42ED6FBAB17C654
-    sudo apt update -y
-echo "Installing ROS Melodic Full"
+    sudo apt update
+echo "Installing ROS $ROS_DISTRO Full"
     sudo apt install -y ros-$ROS_DISTRO-desktop-full
-    echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+    echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
     source ~/.bashrc
     source /opt/ros/$ROS_DISTRO/setup.bash
 echo "About to install various python packages"
-    sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-    sudo apt install python-rosdep
+    #sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+    #sudo apt install python-rosdep
     sudo rosdep init
     rosdep update
     install_additional_packages
@@ -172,7 +172,6 @@ get_models() {
     sudo git init
     sudo git remote add origin https://github.com/osrf/gazebo_models.git
     sudo git pull origin master
-# Back to Home
     cd ~
 }
 get_models
