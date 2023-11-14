@@ -56,9 +56,9 @@ echo "Upgrading..."
 # Install AgileX Robots
 install_ugv() {
 echo "About to run install_ugv()"
-echo "ugv_ws already exists, let me remove it for you"
-sleep 1
-        sudo rm -rf ugv_ws
+#echo "ugv_ws already exists, let me remove it for you"
+#sleep 1
+#        sudo rm -rf ugv_ws
 echo "Creating new ugv_ws"
     mkdir ugv_ws
     cd ugv_ws
@@ -82,6 +82,8 @@ echo "Rosdep installing"
     rosdep install --from-paths src --ignore-src -r -y
 echo "Running catkin_make"
     /opt/ros/$ROS_DISTRO/bin/catkin_make
+    echo "source devel/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
 }
 
 # A great repository of Gazebo models
