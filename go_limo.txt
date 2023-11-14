@@ -1,10 +1,10 @@
 #start gazebo+rviz
 #new tab
 
+    cd ugv_ws
     export ROS_DISTRO=melodic
     source /opt/ros/$ROS_DISTRO/setup.bash
     source devel/setup.bash
-    rosparam set use_sim_time true
     roslaunch limo_gazebo_sim limo_ackerman.launch
 
 
