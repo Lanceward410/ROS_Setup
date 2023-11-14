@@ -59,7 +59,7 @@ echo "About to run install_ugv()"
     if [ -d "ugv_ws" ]; then
 echo "ugv_ws already exists, let me remove it for you"
 sleep 1
-        rm -rf ugv_sim
+        rm -rf ugv_ws
     fi
 echo "Creating new ugv_ws"
     mkdir ugv_ws
@@ -116,6 +116,7 @@ install_ros_noetic() {
     export ROS_DISTRO=noetic
     install_ros
 echo "About to install various python packages"
+    sudo apt install -y python python3
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
     sudo rosdep init
