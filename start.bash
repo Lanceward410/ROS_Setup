@@ -36,10 +36,10 @@ echo "setting keys for ROS"
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
     sudo apt update
 echo "Installing ROS $ROS_DISTRO Full"
-    sudo apt install -y ros-noetic-desktop-full
+    sudo apt install -y ros-$ROS_DISTRO-desktop-full
 echo "source /opt/ros/$ROS_DISTRO/setup.bash"
     source /opt/ros/$ROS_DISTRO/setup.bash
-    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+    echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
     source ~/.bashrc
 }
 
@@ -56,11 +56,9 @@ echo "Upgrading..."
 # Install AgileX Robots
 install_ugv() {
 echo "About to run install_ugv()"
-    if [ -d "ugv_ws" ]; then
 echo "ugv_ws already exists, let me remove it for you"
 sleep 1
         sudo rm -rf ugv_ws
-    fi
 echo "Creating new ugv_ws"
     mkdir ugv_ws
     cd ugv_ws
@@ -89,8 +87,7 @@ echo "Running catkin_make"
 # A great repository of Gazebo models
 get_models() {
     echo "About to download Gazebo models"
-    cd /
-    cd usr/share/$GAZEBO_VERSION/models
+    cd /usr/share/$GAZEBO_VERSION/models
     sudo rm -r *
     sudo git init
     sudo git remote add origin https://github.com/osrf/gazebo_models.git
