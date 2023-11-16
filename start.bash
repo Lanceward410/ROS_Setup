@@ -88,9 +88,9 @@ echo "Running catkin_make"
 
 # A great repository of Gazebo models
 get_models() {
+    cd ~/ROS_Setup # To protect from any failure in the lines following
     echo "About to download Gazebo models"
-    cd /usr/share/$GAZEBO_VERSION/models
-    sudo rm -r *
+    cd /usr/share/$GAZEBO_VERSION/models && sudo rm -r *
     sudo git init
     sudo git remote add origin https://github.com/osrf/gazebo_models.git
     sudo git pull origin master
@@ -125,6 +125,10 @@ echo "About to install various python packages"
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ The Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Automatic update from Github
+cd ~/ROS_Setup
+git pull
 
 # A good waste of 10 minutes is what not including this was
 cd ~
