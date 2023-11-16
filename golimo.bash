@@ -1,3 +1,5 @@
+    cd ~/ROS_Setup
+    git pull
     cd ~/ugv_ws
     gnome-terminal -- bash -c limostart.bash
     gnome-terminal -- bash -c limomap.bash
