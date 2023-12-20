@@ -1,0 +1,52 @@
+Limo Instructions
+
+Each of these three steps should be done in a new terminal.
+This is because each command will begin a continuous process that
+will 'occupy' the terminal indefinitely until it is closed.
+
+1.) First, select one of two steering mode options.
+
+2.) Second, being to print your lidar scans to /map topic.
+
+3.) Third, select one of two remote control options.
+
+There should be no errors.
+REST error can be disregarded if encountered.
+This should be done in Ubuntu 18.04, but sometimes it works in Ubuntu 20.04 environment also.
+
+------------------------------------------------------------------------------------------
+
+1.) Ackerman Steering:
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    roslaunch limo_gazebo_sim limo_ackerman.launch
+
+2.) Four Differential Steering:
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    roslaunch limo_gazebo_sim limo_four_diff.launch
+
+------------------------------------------------------------------------------------------
+
+Print Map to /map topic:
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    rosparam set use_sim_time true
+    rosrun gmapping slam_gmapping scan:=/limo/scan
+
+------------------------------------------------------------------------------------------
+
+1.) Teleop Keyboard:
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    rosrun teleop_twist_keyboard teleop_twist_keyboard.py
+
+2.) Sliding Scale /cmd_vel UI:
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    rosrun rqt_robot_steering rqt_robot_steering
