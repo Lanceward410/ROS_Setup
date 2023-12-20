@@ -169,7 +169,7 @@ case $ubuntu_version in
 esac
 
 # Get Gazebo models
-#get_models
+get_models
 
 echo "."
 echo "."
