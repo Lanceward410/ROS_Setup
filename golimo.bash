@@ -1,11 +1,9 @@
     cd ~/ROS_Setup
     git pull
     cd ~/ugv_ws
-    gnome-terminal -- bash -c "bash limostart.bash"
-    echo "Wait until ROSMaster has booted. Then, press any key to continue."
-    read -n 1 -s -r
-    gnome-terminal -- bash -c "bash limomap.bash"
-    gnome-terminal -- bash -c "bash limocontrol.bash""
+gnome-terminal -- bash -c "bash limostart.bash"
+gnome-terminal -- bash -c "bash limomap.bash"
+gnome-terminal -- bash -c "bash limocontrol.bash"
 
 
 #    cd ~/ugv_ws
