@@ -66,8 +66,8 @@ echo "Creating new ugv_ws"
     cd src
 echo "catkin_init_workspace"
     /opt/ros/$ROS_DISTRO/bin/catkin_init_workspace
-echo "clone ugv_sim"
-    git clone https://github.com/agilexrobotics/ugv_sim.git
+echo "clone UMES_Limo"
+    git clone git@github.com:Lanceward410/UMES_Limo.git
     cd ..
     LINE_TO_ADD="source devel/setup.bash"
     FILE=~/.bashrc
@@ -136,6 +136,7 @@ cd ~
 sudo apt update
 sudo apt upgrade -y
 sudo apt install git -y
+sudo apt install git-lfs
 # These are some optional software to aid in ROS development
 snap install code --classic
 sudo snap install foxglove-studio -y
@@ -149,6 +150,12 @@ sudo apt install blender -y
 sudo snap install turtlebot3c -y
 # System resource monitor
 sudo apt install htop
+# Acquire and install Docker
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 # Set Gazebo Version...
 set_gazebo_version
