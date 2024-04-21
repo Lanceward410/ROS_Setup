@@ -1,6 +1,8 @@
 #!/bin/bash
 
 function pairkey() {
+  echo "Before continuing, you MUST provide your SSH key to"
+  echo "the ROS_Setup Github repository. After you have done this,"
   echo "Press Enter to continue to key pairing"
   read -r
   echo "Carrying on,"
