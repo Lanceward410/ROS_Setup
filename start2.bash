@@ -100,9 +100,12 @@ install_ros() {
                 sudo apt install software-properties-common
                 sudo add-apt-repository universe
             echo "Setting up keys..."
-                sudo apt install curl -y
-                curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+                sudo apt update && sudo apt install curl -y
+                curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | gpg --dearmor > /usr/share/keyrings/ros-archive-keyring.gpg
+                sudo apt update
+                sudo apt upgrade -y
+                #curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg | sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
+                #echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list >> /dev/null
             echo "Updating/Upgrading with new keys"
                 sudo apt update
                 sudo apt upgrade -y
@@ -336,9 +339,9 @@ get_moon_models
 
 # In the future, various aliases will be determined and set here
 # Example:$ echo "alias myalias='/path/to/your/function.sh'" >> ~/.bashrc
-echo "alias soundbash='~/ROS_Setup/other_scripts/sound.bash'" >> ~/.bashrc
-echo "alias gitbash='~/ROS_Setup/other_scripts/git2.bash'" >> ~/.bashrc
-echo "alias nvidiabash='~/ROS_Setup/other_scripts/nvidia_setup.bash'" >> ~/.bashrc
+echo "alias soundbash='bash ~/ROS_Setup/other_scripts/sound.bash'" >> ~/.bashrc
+echo "alias gitbash='bash ~/ROS_Setup/other_scripts/git2.bash'" >> ~/.bashrc
+echo "alias nvidiabash='bash ~/ROS_Setup/other_scripts/nvidia_setup.bash'" >> ~/.bashrc
 
 # Closing statement lets user know without confusion that the shell script has completed. 
 echo "."
