@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Function to pair SSH key (at the end)
 function pairkey() {
   echo "Press Enter to continue to key pairing"
   read -r
   echo "Carrying on,"
+  cd ~/ROS_Setup
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/$keyfilename
   cat ~/.ssh/$keyfilename.pub | pbcopy

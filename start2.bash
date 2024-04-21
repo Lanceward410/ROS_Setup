@@ -7,9 +7,7 @@
 # Author: Lance Ward
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Creating Variables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Detect Ubuntu version
-ubuntu_version=$(lsb_release -rs)
-flag=""
+
 
 # Sets GAZEBO_VERSION to version supported by Ubuntu distro in use
 # Sets GAZEBO_VERSION and ROS_DISTRO based on Ubuntu version and flag
@@ -37,6 +35,7 @@ set_gazebo_and_ros_versions() {
                     echo "Unsupported Ubuntu version for ROS 1."
                     GAZEBO_VERSION="gazebo-11"
                     exit 1
+                    ;;
                 *)
                     echo "Unsupported Ubuntu version for our projects."
                     exit 1
@@ -115,7 +114,7 @@ set_gazebo_and_ros_versions() {
                 echo "Setting up keys..."
                     sudo apt install curl -y
                     sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-                    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main"
+                    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -sc) main"
                     sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
                 echo "Updating/Upgrading with new keys"
                     sudo apt update
@@ -134,7 +133,6 @@ set_gazebo_and_ros_versions() {
                     *)
                         ;;
                 esac
-                ;;
             }
             # Important ROS2 Packages
             # There are none at this time, but the framework to add packages
@@ -151,8 +149,8 @@ set_gazebo_and_ros_versions() {
                         echo "What are thooooose!"
                         ;;
                 esac
-                ;;
             }
+            ;;
         *)
             echo "Problem while executing generic installer."
             ;;
@@ -274,6 +272,10 @@ echo "About to install various python packages"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ The Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+# Detect Ubuntu version
+ubuntu_version=$(lsb_release -rs)
+flag=$1
+
 # Automatic update from Github
 cd ~/ROS_Setup
 git pull
@@ -317,7 +319,7 @@ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent softwa
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io -
+sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 
 # Call the function to set GAZEBO_VERSION and ROS_DISTRO
 # If start.bash is called with flag -1, then ROS1; -2, then ROS2

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-flag=""
+flag=$1
 
 nvidia_setup() {
     sudo apt update
