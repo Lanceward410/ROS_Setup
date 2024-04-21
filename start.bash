@@ -155,7 +155,7 @@ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent softwa
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+sudo apt-get install docker-ce docker-ce-cli containerd.io -
 
 # Set Gazebo Version...
 set_gazebo_version
@@ -178,6 +178,12 @@ esac
 # Get Gazebo models
 get_models
 
+# In the future, various aliases will be determined and set here
+# Example:$ echo "alias myalias='/path/to/your/function.sh'" >> ~/.bashrc
+echo "alias soundcrack='~/ROS_Setup/other_scripts/sound.bash'" >> ~/.bashrc
+
+
+# Closing statement lets user know without confusion that the shell script has completed. 
 echo "."
 echo "."
 echo "UMES ROS Workstation Setup Complete!"
