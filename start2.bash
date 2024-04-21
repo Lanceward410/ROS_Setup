@@ -290,6 +290,13 @@ fi
 
 sudo apt update
 sudo apt upgrade -y
+# Ensuring correct permissions to execute other_scripts from ROS_Setup
+chmod +x ~/ROS_Setup/other_scripts/nvidia_setup.bash
+chmod +x ~/ROS_Setup/other_scripts/sound.bash
+chmod +x ~/ROS_Setup/other_scripts/git2.bash
+chmod +x ~/ROS_Setup/other_scripts/git.bash
+# Setting up Nvidia-Prime with NO flags (-n for nvidia, -i for intel, -o for on-demand)
+bash ~/ROS_Setup/other_scripts/nvidia_setup.bash
 sudo apt install git -y
 sudo apt install git-lfs
 # These are some optional software to aid in ROS development
