@@ -181,7 +181,7 @@ get_models
 # In the future, various aliases will be determined and set here
 # Example:$ echo "alias myalias='/path/to/your/function.sh'" >> ~/.bashrc
 echo "alias soundcrack='~/ROS_Setup/other_scripts/sound.bash'" >> ~/.bashrc
-
+echo "alias startgit='~/ROS_Setup/other_scripts/git2.bash'" >> ~/.bashrc
 
 # Closing statement lets user know without confusion that the shell script has completed. 
 echo "."
