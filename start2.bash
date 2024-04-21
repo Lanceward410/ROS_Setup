@@ -77,10 +77,10 @@ set_gazebo_and_ros_versions() {
 
 # ~~~~~~~~~~~~~~~~~~~~~ Functions ~~~~~~~~~~~~~~~~~~~~~
 
+
+install_ros() {
     case $flag in
         -1)
-            # Generic ROS1 Installer
-            install_ros() {
             echo "setting keys for ROS"
                 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
                 sudo apt install curl -y
@@ -94,67 +94,49 @@ set_gazebo_and_ros_versions() {
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
-            }
-            # Important ROS1 Packages
-            install_additional_packages() {
+            ;;
+        -2)
+            echo "Enabling Universe repository..."
+                sudo apt install software-properties-common
+                sudo add-apt-repository universe
+            echo "Setting up keys..."
+                sudo apt install curl -y
+                curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+            echo "Updating/Upgrading with new keys"
+                sudo apt update
+                sudo apt upgrade -y
+            echo "Installing ROS $ROS_DISTRO..."
+                sudo apt install ros-$ROS_DISTRO-desktop python3-argcomplete -y
+                sudo apt install ros-dev-tools -y
+            echo "source /opt/ros/$ROS_DISTRO/setup.bash"
+                source /opt/ros/$ROS_DISTRO/setup.bash
+                echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+                source ~/.bashrc
+            ;;
+        *)
+            echo "Problem executing generic ROS installer."
+            ;;
+    esac
+}
+install_additional_packages() {
+    case $flag in
+        -1)
             echo "About to run install_additional_packages()"
                 sudo apt install -y ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-roslint ros-$ROS_DISTRO-joy
                 sudo apt-get install python3-catkin-tools -y
             echo "Upgrading..."
                 sudo apt update
                 sudo apt upgrade -y
-            }
             ;;
         -2)
-            # Generic ROS2 Installer
-            install_ros() {
-                echo "Enabling Universe repository..."
-                    sudo apt install software-properties-common
-                    sudo add-apt-repository universe
-                echo "Setting up keys..."
-                    sudo apt install curl -y
-                    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-                    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -sc) main"
-                    sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
-                echo "Updating/Upgrading with new keys"
-                    sudo apt update
-                    sudo apt upgrade -y
-                echo "Installing ROS $ROS_DISTRO..."
-                    sudo apt install ros-$ROS_DISTRO-desktop -y
-                    sudo apt install ros-dev-tools -y
-                echo "source /opt/ros/$ROS_DISTRO/setup.bash"
-                    source /opt/ros/$ROS_DISTRO/setup.bash
-                    echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
-                    source ~/.bashrc
-                case $ROS_DISTRO in
-                    foxy)
-                    sudo apt install python3-argcomplete -y
-                        ;;
-                    *)
-                        ;;
-                esac
-            }
-            # Important ROS2 Packages
-            # There are none at this time, but the framework to add packages
-            # Is provided to add custom packages in the future.
-            install_additional_packages() {
-                case $ROS_DISTRO in 
-                    foxy)
-                        echo "Foxy does not use install_additional_packages() yet."
-                        ;;
-                    humble)
-                        echo "Humble does not use install_additional_packages() yet."
-                        ;;
-                    *)
-                        echo "What are thooooose!"
-                        ;;
-                esac
-            }
+            echo "No additional packaged yet exist for ROS2 installations."
             ;;
         *)
-            echo "Problem while executing generic installer."
+            echo "Problem executing additional package installer"
             ;;
     esac
+}
 
 # Install AgileX Robots
 install_ugv() {
@@ -220,54 +202,54 @@ get_moon_models() {
 # Head function 1.) ROS Melodic distrogit
 install_ros_melodic() {
     export ROS_DISTRO=melodic
-    install_ros
+    install_ros "$flag" "$ROS_DISTRO"
 echo "About to install various python packages"
     sudo apt install -y python python3
     sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install python-rosdep
     sudo rosdep init
     rosdep update
-    install_additional_packages
+    install_additional_packages "$flag" "$ROS_DISTRO"
     install_ugv
 }
 
 # Head function 2.) ROS Noetic distro
 install_ros_noetic() {
     export ROS_DISTRO=noetic
-    install_ros
+    install_ros "$flag" "$ROS_DISTRO"
 echo "About to install various python packages"
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
     sudo rosdep init
     rosdep update
-    install_additional_packages
+    install_additional_packages "$flag" "$ROS_DISTRO"
     install_ugv
 }
 
 # Head function 2.) ROS Noetic distro
 install_ros2_foxy() {
     export ROS_DISTRO=foxy
-    install_ros
-echo "About to install various python packages"
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
+    install_ros "$flag" "$ROS_DISTRO"
+echo "About to install various python packages"
     sudo rosdep init
     rosdep update
-    install_additional_packages
-    install_ugv
+    install_additional_packages "$flag" "$ROS_DISTRO"
+    #install_ugv
 }
 
 # Head function 2.) ROS Noetic distro
 install_ros2_humble() {
     export ROS_DISTRO=humble
-    install_ros
-echo "About to install various python packages"
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
+    install_ros "$flag" "$ROS_DISTRO"
+echo "About to install various python packages"
     sudo rosdep init
     rosdep update
-    install_additional_packages
-    install_ugv
+    install_additional_packages "$flag" "$ROS_DISTRO"
+    #install_ugv
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ The Script ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -300,14 +282,14 @@ chmod +x ~/ROS_Setup/other_scripts/git.bash
 # Setting up Nvidia-Prime with NO flags (-n for nvidia, -i for intel, -o for on-demand)
 bash ~/ROS_Setup/other_scripts/nvidia_setup.bash
 sudo apt install git -y
-sudo apt install git-lfs
+sudo apt install git-lfs -y
 # These are some optional software to aid in ROS development
 snap install code --classic
-sudo snap install foxglove-studio -y
-sudo snap install qtcreator-ros --classic -y
-sudo snap install cmake --classic -y
+sudo snap install foxglove-studio
+sudo snap install qtcreator-ros --classic
+sudo snap install cmake --classic
 #imager for raspberry pi
-sudo snap install rpi-imager -y
+sudo snap install rpi-imager
 # Open-source 3D model editor
 sudo apt install blender -y
 # Turtle bot!
@@ -348,7 +330,7 @@ case $ubuntu_version in
 esac
 
 # Get Gazebo models
-get_models
+#get_models
 get_space_models
 get_moon_models
 
