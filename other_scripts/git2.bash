@@ -9,7 +9,9 @@ function pairkey() {
   cd ~/ROS_Setup
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/$keyfilename
-  cat ~/.ssh/$keyfilename.pub | pbcopy
+  cat ~/.ssh/$keyfilename.pub
+  #ssh-add ~/.ssh/foxy1
+  #cat ~/.ssh/foxy1.pub
   ssh -T git@github.com
   git remote set-url origin git@github.com:Lanceward410/ROS_Setup.git
 }
