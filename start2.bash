@@ -90,28 +90,33 @@ install_ros() {
                 sudo apt upgrade -y
             echo "Installing ROS $ROS_DISTRO Full"
                 sudo apt install -y ros-$ROS_DISTRO-desktop-full
-            echo "source /opt/ros/$ROS_DISTRO/setup.bash"
+                echo "source /opt/ros/$ROS_DISTRO/setup.bash"
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
             ;;
         -2)
+        	sudo apt --fix-broken install
             echo "Enabling Universe repository..."
                 sudo apt install software-properties-common
                 sudo add-apt-repository universe
             echo "Setting up keys..."
                 sudo apt update && sudo apt install curl -y
-                curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | gpg --dearmor > /usr/share/keyrings/ros-archive-keyring.gpg
+                sudo curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo gpg --dearmor > ~/ros-archive-keyring.gpg
+                sudo mv ~/ros-archive-keyring.gpg /usr/share/keyrings/
                 sudo apt update
                 sudo apt upgrade -y
                 #curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg | sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F42ED6FBAB17C654
                 #echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list >> /dev/null
             echo "Updating/Upgrading with new keys"
                 sudo apt update
+                echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+                sudo apt update
                 sudo apt upgrade -y
             echo "Installing ROS $ROS_DISTRO..."
                 sudo apt install ros-$ROS_DISTRO-desktop python3-argcomplete -y
                 sudo apt install ros-dev-tools -y
+                #sudo apt install python3-catkin-tools -y
             echo "source /opt/ros/$ROS_DISTRO/setup.bash"
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
@@ -133,6 +138,8 @@ install_additional_packages() {
                 sudo apt upgrade -y
             ;;
         -2)
+            sudo apt install ros-foxy-gazebo-* -y
+            sudo apt install ros-foxy-slam-toolbox -y
             echo "No additional packaged yet exist for ROS2 installations."
             ;;
         *)
@@ -277,6 +284,7 @@ fi
 
 sudo apt update
 sudo apt upgrade -y
+sudo apt --fix-broken install -y
 # Ensuring correct permissions to execute other_scripts from ROS_Setup
 chmod +x ~/ROS_Setup/other_scripts/nvidia_setup.bash
 chmod +x ~/ROS_Setup/other_scripts/sound.bash
@@ -284,19 +292,20 @@ chmod +x ~/ROS_Setup/other_scripts/git2.bash
 chmod +x ~/ROS_Setup/other_scripts/git.bash
 # Setting up Nvidia-Prime with NO flags (-n for nvidia, -i for intel, -o for on-demand)
 bash ~/ROS_Setup/other_scripts/nvidia_setup.bash
+# Git things
 sudo apt install git -y
 sudo apt install git-lfs -y
 # These are some optional software to aid in ROS development
-snap install code --classic
+sudo snap install code --classic
 sudo snap install foxglove-studio
 sudo snap install qtcreator-ros --classic
 sudo snap install cmake --classic
-#imager for raspberry pi
+# Imager for raspberry pi
 sudo snap install rpi-imager
 # Open-source 3D model editor
 sudo apt install blender -y
 # Turtle bot!
-sudo snap install turtlebot3c -y
+sudo snap install turtlebot3c
 # System resource monitor
 sudo apt install htop
 # Acquire and install Docker
