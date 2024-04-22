@@ -16,7 +16,7 @@ set_gazebo_and_ros_versions() {
     local flag=$2
 
     case $flag in
-        -1)
+        -ros1)
             case $ubuntu_version in
                 18.04)
                     ROS_DISTRO="melodic"
@@ -42,7 +42,7 @@ set_gazebo_and_ros_versions() {
                     ;;
             esac
             ;;
-        -2)
+        -ros2)
             case $ubuntu_version in
                 14.04|16.04|18.04)
                     echo "Unsupported Ubuntu version for ROS 2."
@@ -80,7 +80,7 @@ set_gazebo_and_ros_versions() {
 
 install_ros() {
     case $flag in
-        -1)
+        -ros1)
             echo "setting keys for ROS"
                 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
                 sudo apt install curl -y
@@ -95,7 +95,7 @@ install_ros() {
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
             ;;
-        -2)
+        -ros2)
         	sudo apt --fix-broken install
             echo "Enabling Universe repository..."
                 sudo apt install software-properties-common
@@ -129,7 +129,7 @@ install_ros() {
 }
 install_additional_packages() {
     case $flag in
-        -1)
+        -ros1)
             echo "About to run install_additional_packages()"
                 sudo apt install -y ros-$ROS_DISTRO-gmapping ros-$ROS_DISTRO-teleop-twist-keyboard ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers ros-$ROS_DISTRO-rqt-robot-steering ros-$ROS_DISTRO-gazebo-ros ros-$ROS_DISTRO-joint-state-publisher-gui ros-$ROS_DISTRO-gazebo-ros-control ros-$ROS_DISTRO-roslint ros-$ROS_DISTRO-joy
                 sudo apt-get install python3-catkin-tools -y
@@ -137,7 +137,7 @@ install_additional_packages() {
                 sudo apt update
                 sudo apt upgrade -y
             ;;
-        -2)
+        -ros2)
             sudo apt install ros-foxy-gazebo-* -y
             sudo apt install ros-foxy-slam-toolbox -y
             echo "No additional packaged yet exist for ROS2 installations."
@@ -277,8 +277,8 @@ cd ~
 
 # Check if a flag was provided
 if [[ $# -eq 0 ]]; then
-    echo "No flag provided. Please specify either -1 for ROS 1 or -2 for ROS 2." >&2
-    echo "example:   linuxuser:~$   bash start.bash -1"
+    echo "No flag provided. Please specify either -ros1 for ROS 1 or -ros2 for ROS 2." >&2
+    echo "example:   linuxuser:~$   bash start.bash -ros2"
     exit 1
 fi
 
@@ -316,7 +316,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 
 # Call the function to set GAZEBO_VERSION and ROS_DISTRO
-# If start.bash is called with flag -1, then ROS1; -2, then ROS2
+# If start.bash is called with flag -ros1, then ROS1; -ros2, then ROS2
 set_gazebo_and_ros_versions "$ubuntu_version" "$flag"
 
 # Call ROS install function based on Ubuntu version
@@ -326,23 +326,24 @@ case $ubuntu_version in
         ;;
     20.04)
         case $flag in
-            -1)
-            install_ros_noetic
-            ;;
-            -2)
-            install_ros2_foxy
-            ;;
+            -ros1)
+                install_ros_noetic
+                ;;
+            -ros2)
+                install_ros2_foxy
+                ;;
             *)
-            ;;
+                echo "Ubuntu version 20.04 detected, but no input found for ROS_DISTRO (flag 1)"
+                ;;
         esac
         ;;
     22.04)
         install_ros2_humble
-	;;
+	    ;;
 esac
 
 # Get Gazebo models
-#get_models
+get_models
 get_space_models
 get_moon_models
 
@@ -351,6 +352,7 @@ get_moon_models
 echo "alias soundbash='bash ~/ROS_Setup/other_scripts/sound.bash'" >> ~/.bashrc
 echo "alias gitbash='bash ~/ROS_Setup/other_scripts/git2.bash'" >> ~/.bashrc
 echo "alias nvidiabash='bash ~/ROS_Setup/other_scripts/nvidia_setup.bash'" >> ~/.bashrc
+echo "alias setuser='bash ~/ROS_Setup/other_scripts/gituser.bash'" >> ~/.bashrc
 
 # Closing statement lets user know without confusion that the shell script has completed. 
 echo "."
