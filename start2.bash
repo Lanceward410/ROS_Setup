@@ -2,7 +2,7 @@
 
 # Welcome to ROS Setup!
 # Run this file by navigating to the ROS_Setup repository
-# and running "sudo bash setup_ros.bash"
+# and running "bash setup_ros.bash"
 # Cheers!
 # Author: Lance Ward
 

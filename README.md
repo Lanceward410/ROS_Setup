@@ -18,8 +18,9 @@ In the other_scripts, there are scripts to:
 1.) Repair sound issue due to over-amplification
 2.) Create Git SSH key
 3.) Gnome script
-
+4.) set Git user
+5.) Set up nvidia driver
 
 
 In robot_readmes, you can find instructions and bash scripts for various robots 
-that UMES is working with (Limo, Scout mini, Yahboom X1, MicroROS, GoPiGo3)
+that UMES is working with (Limo[melodic], Scout mini[melodic], Yahboom X1[melodic?noetic?], MicroROS[no sim yet], GoPiGo3[melodic])
