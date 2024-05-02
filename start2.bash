@@ -114,6 +114,7 @@ install_ros() {
                 sudo apt update
                 sudo apt upgrade -y
             echo "Installing ROS $ROS_DISTRO..."
+	    	sudo apt --fix-broken install
                 sudo apt install ros-$ROS_DISTRO-desktop python3-argcomplete -y
                 sudo apt install ros-dev-tools -y
                 #sudo apt install python3-catkin-tools -y
