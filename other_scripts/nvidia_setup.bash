@@ -5,6 +5,10 @@ flag=$1
 nvidia_setup() {
     sudo apt update
     sudo apt upgrade -y
+    sudo add-apt-repository ppa:graphics-drivers/ppa
+    echo -ne '\n'
+    sudo apt-get update
+    sudo apt install nvidia-prime -y
     sudo apt-get install nvidia-driver-535 nvidia-prime -y
         case $flag in
             -n)
