@@ -5,7 +5,7 @@ flag=$1
 nvidia_setup() {
     sudo apt update
     sudo apt upgrade -y
-    sudo add-apt-repository ppa:graphics-drivers/ppa
+    sudo add-apt-repository ppa:graphics-drivers/ppa -y
     echo -ne '\n'
     sudo apt-get update
     sudo apt install nvidia-prime -y
