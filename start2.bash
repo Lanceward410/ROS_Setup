@@ -172,7 +172,7 @@ echo "Creating new ugv_ws"
 echo "catkin_init_workspace"
     /opt/ros/$ROS_DISTRO/bin/catkin_init_workspace
 echo "clone UMES_Limo"
-    git clone github.com/Lanceward410/UMES_Limo.git
+    git clone https://github.com/Lanceward410/UMES_Limo.git
     cd ..
     LINE_TO_ADD="source devel/setup.bash"
     FILE=~/.bashrc
