@@ -22,11 +22,21 @@ This should be done in Ubuntu 18.04, but sometimes it works in Ubuntu 20.04 envi
     source ~/.bashrc
     roslaunch limo_gazebo_sim limo_ackerman.launch
 
-2.) Four Differential Steering:
+2.) Four Differential Steering for mapping:
 
     cd ~/ugv_ws
     source ~/.bashrc
     roslaunch limo_gazebo_sim limo_four_diff.launch
+
+3.) Four Differential Steering for navigating with map:
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    roslaunch limo_gazebo_sim limo_four_diff_edit.launch
+
+    cd ~/ugv_ws
+    source ~/.bashrc
+    roslaunch navstack_pub limo_four_diff_edit.launch
 
 ------------------------------------------------------------------------------------------
 
@@ -36,6 +46,10 @@ Print Map to /map topic:
     source ~/.bashrc
     rosparam set use_sim_time true
     rosrun gmapping slam_gmapping scan:=/limo/scan
+
+Save map command:
+
+    rosrun map_server map_saver -f 'LabTrialsfinal'
 
 ------------------------------------------------------------------------------------------
 
