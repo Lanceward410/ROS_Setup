@@ -100,6 +100,7 @@ install_ros() {
             echo "Enabling Universe repository..."
                 sudo apt install software-properties-common
                 sudo add-apt-repository universe
+		echo -ne '\n'
             echo "Setting up keys..."
                 sudo apt update && sudo apt install curl -y
                 sudo curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo gpg --dearmor > ~/ros-archive-keyring.gpg
@@ -313,6 +314,7 @@ sudo apt install htop
 sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+echo -ne '\n'
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 
