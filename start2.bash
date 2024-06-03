@@ -284,6 +284,26 @@ if [[ $# -eq 0 ]]; then
     exit 1
 fi
 
+# Check if a GPG key exists
+key_exists() {
+    key="$1"
+    apt-key list | grep -q "$key"
+}
+add_key_if_missing() {
+    key="$1"
+    if ! key_exists "$key"; then
+        sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key "$key"
+    fi
+}
+ROS_KEY="F42ED6FBAB17C654"
+if ! key_exists "$ROS_KEY"; then
+    add_key_if_missing "$ROS_KEY"
+fi
+DOCKER_KEY="7EA0A9C3F273FCD8"
+if ! key_exists "$DOCKER_KEY"; then
+    add_key_if_missing "$DOCKER_KEY"
+fi
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt --fix-broken install -y
