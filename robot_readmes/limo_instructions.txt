@@ -6,7 +6,7 @@ will 'occupy' the terminal indefinitely until it is closed.
 
 1.) First, select one of two steering mode options.
 
-2.) Second, being to print your lidar scans to /map topic.
+2.) Second, begin to print your lidar scans to /map topic.
 
 3.) Third, select one of two remote control options.
 
