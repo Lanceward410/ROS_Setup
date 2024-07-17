@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 import subprocess
 import os
+import signal
+import sys
 
 # Function to run a bash script
 def run_script(script_name):
@@ -18,6 +20,15 @@ def run_script(script_name):
             messagebox.showinfo("Output", result.stdout)
     except Exception as e:
         messagebox.showerror("Error", str(e))
+
+# Signal handler for graceful exit
+def signal_handler(sig, frame):
+    print('Interrupt received, shutting down...')
+    root.destroy()
+    sys.exit(0)
+
+# Register the signal handler
+signal.signal(signal.SIGINT, signal_handler)
 
 # Create the main window
 root = tk.Tk()
