@@ -4,15 +4,15 @@
 By: Lance Ward
 
 Welcome to ROS_Setup!
-Run this file by navigating to the ~/ROS_Setup repository
+Run this file by navigating to the ~/ROS_Setup/scripts repository
 and then running the start2.bash script, WITH flag "-ros1" or flag "-ros2" to select your desired ROS distro
 Here is an example, if you are on Ubuntu 20, and would like to install ROS 2 Foxy:
 
-~/ROS_Setup$   	bash start2.bash -ros2
+~/ROS_Setup/scripts$   	bash start2.bash -ros2
 
 Or, inside of any directory,
 
-~$             	bash ~/ROS_Setup/start.bash
+~$             	bash ~/ROS_Setup/scripts/start2.bash
 
 
 In the other_scripts, there are scripts to:

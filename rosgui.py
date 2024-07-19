@@ -13,7 +13,7 @@ def run_script(script_name):
         return
     
     try:
-        result = subprocess.run(['bash', script_path], capture_output=True, text=True)
+        result = subprocess.run(['bash', script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         if result.returncode != 0:
             messagebox.showerror("Error", f"Script execution failed: {result.stderr}")
         else:
@@ -60,10 +60,10 @@ secondary_label = tk.Label(root, text="Setup Scripts", font=('Helvetica', 14, 'b
 secondary_label.pack(pady=(10, 5))
 
 secondary_buttons = [
-    ('Setup Git Keys', 'setup_git_keys.sh'),
-    ('Setup Git User', 'setup_git_user.sh'),
-    ('Setup Nvidia Drivers', 'setup_nvidia_drivers.sh'),
-    ('Repair Sound', 'repair_sound.sh')
+    ('Setup Git Keys', 'git2.bash'),
+    ('Setup Git User', 'gituser.bash'),
+    ('Setup Nvidia Drivers', 'nvidia_setup.bash'),
+    ('Repair Sound', 'sound.bash')
 ]
 
 for text, script in secondary_buttons:
