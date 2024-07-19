@@ -7,17 +7,19 @@ import sys
 
 # Function to run a bash script
 def run_script(script_name):
-    script_path = os.path.expanduser(f'~/ROS_Setup/scripts/{script_name}')
+    script_path = os.path.expanduser('~/ROS_Setup/scripts/{}'.format(script_name))
     if not os.path.exists(script_path):
-        messagebox.showerror("Error", f"Script not found: {script_path}")
+        messagebox.showerror("Error", "Script not found: {}".format(script_path))
         return
     
     try:
-        result = subprocess.run(['bash', script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        result = subprocess.run(['bash', script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout = result.stdout.decode('utf-8')
+        stderr = result.stderr.decode('utf-8')
         if result.returncode != 0:
-            messagebox.showerror("Error", f"Script execution failed: {result.stderr}")
+            messagebox.showerror("Error", "Script execution failed: {}".format(stderr))
         else:
-            messagebox.showinfo("Output", result.stdout)
+            messagebox.showinfo("Output", stdout)
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
