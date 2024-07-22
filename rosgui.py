@@ -1,9 +1,10 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 import subprocess
 import os
 import signal
 import sys
+import threading
 
 # Function to run a bash script
 def run_script(script_name):
@@ -11,15 +12,33 @@ def run_script(script_name):
     if not os.path.exists(script_path):
         messagebox.showerror("Error", "Script not found: {}".format(script_path))
         return
-    
+
+    password = simpledialog.askstring("Password", "Enter your sudo password:", show='*')
+    if not password:
+        messagebox.showwarning("Warning", "No password entered. Operation cancelled.")
+        return
+
+    def stream_output(process):
+        while True:
+            output = process.stdout.readline()
+            if output == '' and process.poll() is not None:
+                break
+            if output:
+                text_widget.configure(state='normal')
+                text_widget.insert(tk.END, output)
+                text_widget.configure(state='disabled')
+                text_widget.see(tk.END)
+        err = process.stderr.read()
+        if err:
+            text_widget.configure(state='normal')
+            text_widget.insert(tk.END, "\nError:\n" + err)
+            text_widget.configure(state='disabled')
+        process.communicate()
+
     try:
-        result = subprocess.run(['bash', script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout = result.stdout.decode('utf-8')
-        stderr = result.stderr.decode('utf-8')
-        if result.returncode != 0:
-            messagebox.showerror("Error", "Script execution failed: {}".format(stderr))
-        else:
-            messagebox.showinfo("Output", stdout)
+        command = f"echo {password} | sudo -S bash {script_path}"
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        threading.Thread(target=stream_output, args=(process,), daemon=True).start()
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
@@ -42,6 +61,10 @@ button_padding = {'padx': 10, 'pady': 5}
 # Main Buttons Section
 main_label = tk.Label(root, text="Main Installers", font=('Helvetica', 14, 'bold'))
 main_label.pack(pady=(10, 5))
+
+# Text widget to show terminal output
+text_widget = tk.Text(root, state='disabled', width=80, height=20)
+text_widget.pack(pady=10)
 
 main_buttons = [
     ('ROS1 Installer', 'ros1_installer.sh'),
@@ -94,4 +117,3 @@ for text, script in readme_buttons:
 
 # Start the GUI loop
 root.mainloop()
-
