@@ -96,6 +96,7 @@ install_ros() {
                 source ~/.bashrc
 		sudo mkdir -p ~/.ros/log
   		sudo chmod 777 ~/.ros/log
+    		sudo chown -R $(whoami):$(whoami) ~/.ros
     		sudo chmod -R u+rw ~/.ros
             ;;
         -ros2)
@@ -128,6 +129,7 @@ install_ros() {
                 source ~/.bashrc
 		sudo mkdir -p ~/.ros/log
   		sudo chmod 777 ~/.ros/log
+    		sudo chown -R $(whoami):$(whoami) ~/.ros
     		sudo chmod -R u+rw ~/.ros
             ;;
         *)
