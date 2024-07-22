@@ -228,7 +228,7 @@ echo "About to install various python packages"
     sudo apt install -y python python3
     sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install python-rosdep
-    sudo rosdep init
+    rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     install_ugv
@@ -241,7 +241,7 @@ install_ros_noetic() {
 echo "About to install various python packages"
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
-    sudo rosdep init
+    rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     install_ugv
@@ -254,7 +254,7 @@ install_ros2_foxy() {
     sudo apt install -y python3-rosdep
     install_ros "$flag" "$ROS_DISTRO"
 echo "About to install various python packages"
-    sudo rosdep init
+    rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     #install_ugv
@@ -267,7 +267,7 @@ install_ros2_humble() {
     sudo apt install -y python3-rosdep
     install_ros "$flag" "$ROS_DISTRO"
 echo "About to install various python packages"
-    sudo rosdep init
+    rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     #install_ugv
