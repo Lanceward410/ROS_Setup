@@ -94,10 +94,6 @@ install_ros() {
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
-		sudo mkdir -p ~/.ros/log
-  		sudo chmod 777 ~/.ros/log
-    		sudo chown -R $(whoami):$(whoami) ~/.ros
-    		sudo chmod -R u+rw ~/.ros
             ;;
         -ros2)
         	sudo apt --fix-broken install
@@ -127,10 +123,6 @@ install_ros() {
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
-		sudo mkdir -p ~/.ros/log
-  		sudo chmod 777 ~/.ros/log
-    		sudo chown -R $(whoami):$(whoami) ~/.ros
-    		sudo chmod -R u+rw ~/.ros
             ;;
         *)
             echo "Problem executing generic ROS installer."
@@ -373,6 +365,9 @@ case $ubuntu_version in
         install_ros2_humble
 	    ;;
 esac
+
+sudo chown -R $(whoami):$(whoami) ~/.ros
+sudo chmod -R u+rw ~/.ros
 
 # Get Gazebo models
 get_models
