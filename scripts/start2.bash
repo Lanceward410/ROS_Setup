@@ -196,7 +196,8 @@ echo "Running catkin_make"
 get_models() {
     cd ~/ROS_Setup # To protect from any failure in the lines following
     echo "About to download Gazebo models"
-    cd /usr/share/$GAZEBO_VERSION/models && sudo rm -r *
+    cd /usr/share/$GAZEBO_VERSION/models && sudo rm -rf *
+    sudo rm -rf .git .gitignore
     sudo git init
     sudo git remote add origin https://github.com/osrf/gazebo_models.git
     sudo git pull origin master
