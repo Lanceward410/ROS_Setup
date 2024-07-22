@@ -36,7 +36,7 @@ def run_script(script_name):
         process.communicate()
 
     try:
-        command = f"echo {password} | sudo -S bash {script_path}"
+        command = f"echo {password} | sudo -Su dreamlaptop1 bash {script_path}"
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         threading.Thread(target=stream_output, args=(process,), daemon=True).start()
     except Exception as e:
