@@ -185,7 +185,7 @@ echo "source devel/setup.bash already exists in $FILE."
         fi
     source ~/.bashrc
 echo "Rosdep installing"
-    rosdep install --from-paths src --ignore-src -r -y
+    rosdep install --rosdistro $ROS_DISTRO --from-paths src --ignore-src -r -y
 echo "Running catkin_make"
     /opt/ros/$ROS_DISTRO/bin/catkin_make
     echo "source devel/setup.bash" >> ~/.bashrc
@@ -220,7 +220,7 @@ echo "About to install various python packages"
     sudo apt install -y python python3
     sudo apt install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
     sudo apt install python-rosdep
-    rosdep init
+    sudo rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     install_ugv
@@ -233,7 +233,7 @@ install_ros_noetic() {
 echo "About to install various python packages"
     sudo apt install -y python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
     sudo apt install -y python3-rosdep
-    rosdep init
+    sudo rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     install_ugv
@@ -246,7 +246,7 @@ install_ros2_foxy() {
     sudo apt install -y python3-rosdep
     install_ros "$flag" "$ROS_DISTRO"
 echo "About to install various python packages"
-    rosdep init
+    sudo rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     #install_ugv
@@ -259,7 +259,7 @@ install_ros2_humble() {
     sudo apt install -y python3-rosdep
     install_ros "$flag" "$ROS_DISTRO"
 echo "About to install various python packages"
-    rosdep init
+    sudo rosdep init
     rosdep update
     install_additional_packages "$flag" "$ROS_DISTRO"
     #install_ugv
