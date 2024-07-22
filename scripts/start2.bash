@@ -368,6 +368,8 @@ esac
 
 sudo chown -R $(whoami):$(whoami) ~/.ros
 sudo chmod -R u+rw ~/.ros
+sudo chown -R $(whoami):$(whoami) ~/ugv_ws
+sudo chmod -R u+rw ~/ugv_ws
 
 # Get Gazebo models
 get_models
