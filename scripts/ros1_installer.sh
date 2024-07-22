@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd ~/ROS_Setup/scripts/
-bash start2.bash -ros1
+sudo -u dreamlaptop1 bash start2.bash -ros1
