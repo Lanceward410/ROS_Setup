@@ -94,6 +94,8 @@ install_ros() {
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
+		sudo mkdir -p ~/.ros/log
+  		sudo chmod 777 ~/.ros/log
             ;;
         -ros2)
         	sudo apt --fix-broken install
@@ -123,6 +125,8 @@ install_ros() {
                 source /opt/ros/$ROS_DISTRO/setup.bash
                 echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
                 source ~/.bashrc
+		sudo mkdir -p ~/.ros/log
+  		sudo chmod 777 ~/.ros/log
             ;;
         *)
             echo "Problem executing generic ROS installer."
