@@ -140,8 +140,8 @@ install_additional_packages() {
                 sudo apt upgrade -y
             ;;
         -ros2)
-            sudo apt install ros-foxy-gazebo-* -y
-            sudo apt install ros-foxy-slam-toolbox -y
+            sudo apt install ros-$ROS_DISTRO-gazebo-* -y
+            sudo apt install ros-$ROS_DISTRO-slam-toolbox -y
             echo "No additional packaged yet exist for ROS2 installations."
             ;;
         *)
